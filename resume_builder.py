@@ -107,12 +107,13 @@ def update_resume_from_job_posting(
             resume.skills.append(SKILL_DISPLAY[skill])
 
     if suggested:
+        summary_prefix = f"{resume.summary.strip()} " if resume.summary.strip() else ""
         resume.summary = (
-            (resume.summary + " ").strip()
+            summary_prefix
             + "Tailored for role emphasizing "
             + ", ".join(SKILL_DISPLAY[skill] for skill in suggested)
             + "."
-        ).strip()
+        )
 
     return resume
 
@@ -175,7 +176,7 @@ def main(argv: list[str] | None = None) -> int:
         if args.print_link:
             print(export_resume_link(resume))
         if not args.html and not args.print_link:
-            raise ValueError("Specify --html and/or --print-link")
+            raise ValueError("Export command requires at least one of --html or --print-link")
         return 0
 
     if args.command == "tailor":
