@@ -96,14 +96,14 @@ def update_resume_from_job_posting(
     posting = job_text or _fetch_text(job_url or "")
     words = {
         word.lower()
-        for word in re.findall(r"[A-Za-z][A-Za-z0-9+#.-]{1,}", posting)
+        for word in re.findall(r"[A-Za-z][A-Za-z0-9+#.-]*", posting)
     }
 
     suggested = sorted(skill for skill in SKILL_DISPLAY if skill in words)
 
-    existing = {skill.lower(): skill for skill in resume.skills}
+    existing_skills_lower = {skill.lower(): skill for skill in resume.skills}
     for skill in suggested:
-        if skill not in existing:
+        if skill not in existing_skills_lower:
             resume.skills.append(SKILL_DISPLAY[skill])
 
     if suggested:
