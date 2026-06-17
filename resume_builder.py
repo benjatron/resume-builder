@@ -10,6 +10,19 @@ from html import escape
 from pathlib import Path
 from typing import Iterable
 
+SKILL_DISPLAY = {
+    "python": "Python",
+    "javascript": "JavaScript",
+    "typescript": "TypeScript",
+    "react": "React",
+    "sql": "SQL",
+    "aws": "AWS",
+    "docker": "Docker",
+    "kubernetes": "Kubernetes",
+    "leadership": "Leadership",
+    "communication": "Communication",
+}
+
 
 @dataclass
 class Resume:
@@ -86,33 +99,18 @@ def update_resume_from_job_posting(
         for word in re.findall(r"[A-Za-z][A-Za-z0-9+#.-]{1,}", posting)
     }
 
-    suggested = sorted({
-        skill
-        for skill in (
-            "python",
-            "javascript",
-            "typescript",
-            "react",
-            "sql",
-            "aws",
-            "docker",
-            "kubernetes",
-            "leadership",
-            "communication",
-        )
-        if skill in words
-    })
+    suggested = sorted(skill for skill in SKILL_DISPLAY if skill in words)
 
     existing = {skill.lower(): skill for skill in resume.skills}
     for skill in suggested:
         if skill not in existing:
-            resume.skills.append(skill.title())
+            resume.skills.append(SKILL_DISPLAY[skill])
 
     if suggested:
         resume.summary = (
             (resume.summary + " ").strip()
             + "Tailored for role emphasizing "
-            + ", ".join(skill.title() for skill in suggested)
+            + ", ".join(SKILL_DISPLAY[skill] for skill in suggested)
             + "."
         ).strip()
 

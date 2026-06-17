@@ -15,7 +15,7 @@ from resume_builder import (
 class ResumeBuilderTests(unittest.TestCase):
     def test_create_edit_and_export(self):
         resume = create_resume("Ada", "ada@example.com", summary="Engineer")
-        edit_resume(resume, skills=["Python"]) 
+        resume = edit_resume(resume, skills=["Python"])
 
         with tempfile.TemporaryDirectory() as td:
             out = Path(td) / "resume.html"
@@ -38,7 +38,7 @@ class ResumeBuilderTests(unittest.TestCase):
         )
 
         self.assertIn("Python", updated.skills)
-        self.assertIn("Sql", updated.skills)
+        self.assertIn("SQL", updated.skills)
         self.assertIn("Communication", updated.skills)
         self.assertIn("Tailored for role", updated.summary)
 
