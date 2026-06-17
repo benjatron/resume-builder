@@ -106,7 +106,7 @@ def update_resume_from_job_posting(
     existing = {skill.lower(): skill for skill in resume.skills}
     for skill in suggested:
         if skill not in existing:
-            resume.skills.append(skill.title() if skill.islower() else skill)
+            resume.skills.append(skill.title())
 
     if suggested:
         resume.summary = (
